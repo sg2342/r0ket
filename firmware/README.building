@@ -1,3 +1,9 @@
+use
+gmake APP=usbhid TABLE=NO USBHID1=YES
+
+#
+#
+#
 ### A note on the compiler
 We are currently using the CodeSourcery gcc (see wiki for link).
 You can also use a standard arm cross-gcc

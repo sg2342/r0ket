@@ -22,7 +22,8 @@ LIBS += applications/libapp.a
 LIBS += filesystem/libfat.a
 LIBS += usb/libusb.a
 LIBS += funk/libfunk.a
-LIBS += usbcdc/libusbcdc.a
+#LIBS += usbcdc/libusbcdc.a
+LIBS += usbhid/libusbhid.a
 LIBS += flame/libflame.a
 
 ##########################################################################
@@ -46,7 +47,8 @@ OBJS += lpc1xxx/$(TARGET)_handlers.o lpc1xxx/LPC1xxx_startup.o
 LDLIBS  =
 LDLIBS += -Lapplications -lapp
 LDLIBS += -Lfunk -lfunk
-LDLIBS += -Lusbcdc -lusbcdc
+LDLIBS += -Lusbhid -lusbhid
+#LDLIBS += -Lusbcdc -lusbcdc
 LDLIBS += -Lfilesystem -lfat
 LDLIBS += -Lbasic -lbasic
 LDLIBS += -Llcd -llcd

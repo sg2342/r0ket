@@ -87,6 +87,12 @@ void ISPandReset(void){
         delayms(500);
     };
 #endif
+#if CFG_USBHID1
+    if(usbMSCenabled&USB_HID_ENABLEFLAG) {
+        USB_Connect(FALSE);
+        delayms(500);
+    }
+#endif
     EnableWatchdog(1000*15);
     ReinvokeISP();
 };

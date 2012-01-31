@@ -71,6 +71,13 @@
   #include "core/usbcdc/cdc_buf.h"
 #endif
 
+#ifdef CFG_USBHID1
+  volatile unsigned int lastTick;
+  #include "usbhid/usb.h"
+  #include "usbhid/usbcore.h"
+  #include "usbhid/usbhw.h"
+#endif
+
 #ifdef CFG_ST7565
   #include "drivers/lcd/bitmap/st7565/st7565.h"
   #include "drivers/lcd/smallfonts.h"
@@ -163,6 +170,19 @@ void systemInit()
     lastTick = systickGetTicks();   // Used to control output/printf timing
     CDC_Init();                     // Initialise VCOM
     USB_Init();                     // USB Initialization
+    USB_Connect(TRUE);              // USB Connect
+    // Wait until USB is configured or timeout occurs
+    uint32_t usbTimeout = 0; 
+    while ( usbTimeout < CFG_USBCDC_INITTIMEOUT / 10 )
+    {
+      if (USB_Configuration) break;
+      systickDelay(10);             // Wait 10ms
+      usbTimeout++;
+    }
+  #endif
+
+  #ifdef CFG_USBHID1
+    lastTick = systickGetTicks();   // Used to control output/printf timing
     USB_Connect(TRUE);              // USB Connect
     // Wait until USB is configured or timeout occurs
     uint32_t usbTimeout = 0; 

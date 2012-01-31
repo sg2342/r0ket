@@ -99,4 +99,12 @@
 #define CFG_USBMSC                 (0)
 #endif
 
+#ifdef USBHID1
+#undef CFG_USBCDC
+#undef CFG_USBMSC
+#undef CFG_USBHID
+#undef CFG_USBHID1
+#define CFG_USBHID1      (1)
+#endif
+
 #endif

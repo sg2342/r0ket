@@ -49,6 +49,10 @@ ifeq "$(USBSERIAL)" "YES"
 CFLAGS += -DUSBSERIAL
 endif
 
+ifeq "$(USBHID1)" "YES"
+CFLAGS += -DUSBHID1
+endif
+
 CONFIG_MAKE_PRINTDIRECTORY = --no-print-directory 
 CONFIG_GCC_SHOWCOLUMN = 
 
