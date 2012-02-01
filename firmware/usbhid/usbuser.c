@@ -23,8 +23,8 @@
 #include "usbcore.h"
 #include "usbuser.h"
 
-#include "demo.h"
-
+extern uint8_t InReport[];
+extern void GetInReport(void);
 
 /*
  *  USB Power Event Callback
@@ -116,7 +116,7 @@ void USB_Configure_Event (void) {
 
   if (USB_Configuration) {                  /* Check if USB is configured */
     GetInReport();
-    USB_WriteEP(0x81, &InReport, sizeof(InReport));
+    USB_WriteEP(0x81, InReport, USB_HID_IN_REPORT_SIZE);
   }
 }
 #endif
@@ -166,7 +166,7 @@ void USB_EndPoint1 (uint32_t event) {
   switch (event) {
     case USB_EVT_IN:
       GetInReport();
-      USB_WriteEP(0x81, &InReport, sizeof(InReport));
+      USB_WriteEP(0x81, InReport, USB_HID_IN_REPORT_SIZE);
       break;
   }
 }

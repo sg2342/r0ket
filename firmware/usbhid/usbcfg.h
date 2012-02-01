@@ -146,6 +146,8 @@
 #define USB_CDC_CIF_NUM     0
 #define USB_CDC_DIF_NUM     1
 #define USB_CDC_BUFSIZE     64
+#define USB_HID_IN_REPORT_SIZE 8
+#define USB_HID_OUT_REPORT_SIZE 3
 
 /*
 // <e0> USB Vendor Support

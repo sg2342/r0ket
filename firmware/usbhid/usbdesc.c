@@ -29,6 +29,41 @@
 
 /* HID Report Descriptor */
 const uint8_t HID_ReportDescriptor[] = {
+#if 1
+    0x05, 0x01,                    // USAGE_PAGE (Generic Desktop)
+    0x09, 0x06,                    // USAGE (Keyboard)
+    0xa1, 0x01,                    // COLLECTION (Application)
+    0x05, 0x07,                    //   USAGE_PAGE (Keyboard)
+    0x19, 0xe0,                    //   USAGE_MINIMUM (Keyboard LeftControl)
+    0x29, 0xe7,                    //   USAGE_MAXIMUM (Keyboard Right GUI)
+    0x15, 0x00,                    //   LOGICAL_MINIMUM (0)
+    0x25, 0x01,                    //   LOGICAL_MAXIMUM (1)
+    0x75, 0x01,                    //   REPORT_SIZE (1)
+    0x95, 0x08,                    //   REPORT_COUNT (8)
+    0x81, 0x02,                    //   INPUT (Data,Var,Abs)
+    0x95, 0x01,                    //   REPORT_COUNT (1)
+    0x75, 0x08,                    //   REPORT_SIZE (8)
+    0x81, 0x03,                    //   INPUT (Cnst,Var,Abs)
+    0x95, 0x05,                    //   REPORT_COUNT (5)
+    0x75, 0x01,                    //   REPORT_SIZE (1)
+    0x05, 0x08,                    //   USAGE_PAGE (LEDs)
+    0x19, 0x01,                    //   USAGE_MINIMUM (Num Lock)
+    0x29, 0x05,                    //   USAGE_MAXIMUM (Kana)
+    0x91, 0x02,                    //   OUTPUT (Data,Var,Abs)
+    0x95, 0x01,                    //   REPORT_COUNT (1)
+    0x75, 0x03,                    //   REPORT_SIZE (3)
+    0x91, 0x03,                    //   OUTPUT (Cnst,Var,Abs)
+    0x95, 0x06,                    //   REPORT_COUNT (6)
+    0x75, 0x08,                    //   REPORT_SIZE (8)
+    0x15, 0x00,                    //   LOGICAL_MINIMUM (0)
+    0x25, 0x65,                    //   LOGICAL_MAXIMUM (101)
+    0x05, 0x07,                    //   USAGE_PAGE (Keyboard)
+    0x19, 0x00,                    //   USAGE_MINIMUM (Reserved (no event indicated))
+    0x29, 0x65,                    //   USAGE_MAXIMUM (Keyboard Application)
+    0x81, 0x00,                    //   INPUT (Data,Ary,Abs)
+    0xc0                           // END_COLLECTION  
+
+#else
   HID_UsagePageVendor(0x00),
   HID_Usage(0x01),
   HID_Collection(HID_Application),
@@ -51,6 +86,7 @@ const uint8_t HID_ReportDescriptor[] = {
     HID_ReportSize(1),
     HID_Output(HID_Data | HID_Variable | HID_Absolute),
   HID_EndCollection,
+#endif
 };
 
 const uint16_t HID_ReportDescSize = sizeof(HID_ReportDescriptor);
@@ -99,8 +135,8 @@ const uint8_t USB_ConfigDescriptor[] = {
   0x00,                              /* bAlternateSetting */
   0x01,                              /* bNumEndpoints */
   USB_DEVICE_CLASS_HUMAN_INTERFACE,  /* bInterfaceClass */
-  HID_SUBCLASS_NONE,                 /* bInterfaceSubClass */
-  HID_PROTOCOL_NONE,                 /* bInterfaceProtocol */
+  HID_SUBCLASS_BOOT,                 /* bInterfaceSubClass */
+  HID_PROTOCOL_KEYBOARD,                 /* bInterfaceProtocol */
   0x00,                              /* iInterface */
 /* HID Class Descriptor */
 /* HID_DESC_OFFSET = 0x0012 */
@@ -116,7 +152,7 @@ const uint8_t USB_ConfigDescriptor[] = {
   USB_ENDPOINT_DESCRIPTOR_TYPE,      /* bDescriptorType */
   USB_ENDPOINT_IN(1),                /* bEndpointAddress */
   USB_ENDPOINT_TYPE_INTERRUPT,       /* bmAttributes */
-  WBVAL(0x0004),                     /* wMaxPacketSize */
+  WBVAL(0x0040),                     /* wMaxPacketSize */
   0x20,          /* 32ms */          /* bInterval */
 /* Terminator */
   0                                  /* bLength */

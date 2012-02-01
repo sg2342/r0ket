@@ -22,8 +22,13 @@
 #include "usbcfg.h"
 #include "usbcore.h"
 #include "hiduser.h"
-#include "demo.h"
+#include <string.h>
 
+
+extern uint8_t InReport[];
+extern uint8_t OutReport[];
+extern void GetInReport(void);
+extern void SetOutReport(void);
 
 uint8_t HID_Protocol;
 uint8_t HID_IdleTime[HID_REPORT_NUM];
@@ -42,7 +47,7 @@ uint32_t HID_GetReport (void) {
   switch (SetupPacket.wValue.WB.H) {
     case HID_REPORT_INPUT:
       GetInReport();
-      EP0Buf[0] = InReport;
+      memcpy(EP0Buf, InReport, USB_HID_IN_REPORT_SIZE);
       break;
     case HID_REPORT_OUTPUT:
       return (FALSE);          /* Not Supported */
@@ -69,7 +74,7 @@ uint32_t HID_SetReport (void) {
     case HID_REPORT_INPUT:
       return (FALSE);          /* Not Supported */
     case HID_REPORT_OUTPUT:
-      OutReport = EP0Buf[0];
+      memcpy(OutReport, EP0Buf, USB_HID_OUT_REPORT_SIZE),
       SetOutReport();
       break;
     case HID_REPORT_FEATURE:

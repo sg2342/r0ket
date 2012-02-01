@@ -9,7 +9,7 @@ OBJS += usbdesc.o
 OBJS += usbuser.o
 OBJS += hiduser.o
 OBJS += util.o
-OBJS += demo.o
+#OBJS += demo.o
 
 LIBNAME=usbhid
 

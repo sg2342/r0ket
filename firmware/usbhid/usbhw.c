@@ -583,7 +583,7 @@ void USB_IRQHandler (void)
   /* Endpoint's Interrupt */
   if (disr & (0xFF<<1)) {
 	/* if any of the EP0 through EP7 is set, or bit 1 through 9 on disr */
-    for (n = 0; n < USB_EP_NUM; n++) {      /* Check All Endpoints */
+    for (n = 0; n < USB_EP_NUM-2; n++) {      /* Check All Endpoints */
 	  /* skip frame interrupt at bit 0 in disr */
 //      if (disr & ((1 << n)<<1)) {
 	  if ((disr>>1) & (1 << n)) {

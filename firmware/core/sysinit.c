@@ -181,7 +181,7 @@ void systemInit()
     }
   #endif
 
-  #ifdef CFG_USBHID1
+  #ifdef CFG_USBHID2
     lastTick = systickGetTicks();   // Used to control output/printf timing
     USB_Connect(TRUE);              // USB Connect
     // Wait until USB is configured or timeout occurs
