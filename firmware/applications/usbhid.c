@@ -60,6 +60,22 @@ void main_usbhid(void){
    xkey=0;
    once =0;
 
+   gpioSetDir(RB_SPI_SS0, gpioDirection_Input);
+   gpioSetDir(RB_SPI_SS1, gpioDirection_Input);
+   gpioSetDir(RB_SPI_SS2, gpioDirection_Input);
+   gpioSetDir(RB_SPI_SS3, gpioDirection_Input);
+   gpioSetDir(RB_SPI_SS4, gpioDirection_Input);
+   gpioSetDir(RB_SPI_SS5, gpioDirection_Input);
+   gpioIntDisable(RB_BUSINT),
+   gpioSetDir(RB_BUSINT, gpioDirection_Input);
+
+   gpioSetPullup(&IOCON_PIO2_5, gpioPullupMode_PullUp);
+   gpioSetPullup(&IOCON_PIO2_4, gpioPullupMode_PullUp);
+   gpioSetPullup(&IOCON_PIO2_8, gpioPullupMode_PullUp);
+   gpioSetPullup(&IOCON_PIO3_2, gpioPullupMode_PullUp);
+   gpioSetPullup(&IOCON_PIO3_1, gpioPullupMode_PullUp);
+   gpioSetPullup(&IOCON_PIO2_10, gpioPullupMode_PullUp);
+   gpioSetPullup(&IOCON_PIO3_0, gpioPullupMode_PullUp);
    while(1) {
     lcdDisplay();
     delayms(10);
@@ -75,25 +91,43 @@ void main_usbhid(void){
         key = 0;
         usbHIDInit();
         while(1) {
-            key = getInput();
-            if (key==BTN_LEFT) {
-                DoString(0,16,"LEFT ");
-                xkey = 80;
-            } else if (key==BTN_RIGHT) {
-                DoString(0,16,"RIGHT");
-                xkey = 79;
-            } else if (key==BTN_DOWN) {
-                DoString(0,16,"DOWN ");
-                xkey = 81;
-            } else if (key==BTN_UP) {
-                DoString(0,16,"UP   ");
-                xkey = 82;
-            } else if (key==BTN_ENTER) {
-                DoString(0,16,"ENTER");
-                xkey = 88;
+            if (gpioGetValue(RB_SPI_SS0)==0) {
+                xkey = 4;
+            } else if (gpioGetValue(RB_SPI_SS1)==0) {
+                xkey = 5;
+            } else if (gpioGetValue(RB_SPI_SS2)==0) {
+                xkey = 6;
+            } else if (gpioGetValue(RB_SPI_SS3)==0) {
+                xkey = 7;
+            } else if (gpioGetValue(RB_SPI_SS4)==0) {
+                xkey = 8;
+            } else if (gpioGetValue(RB_SPI_SS5)==0) {
+                xkey = 9;
+            } else if (gpioGetValue(RB_BUSINT)==0) {
+                xkey = 10;
+            } else {
+                key = getInputRaw();
+                if (key==BTN_LEFT) {
+                    DoString(0,16,"LEFT ");
+                    xkey = 80;
+                } else if (key==BTN_RIGHT) {
+                    DoString(0,16,"RIGHT");
+                    xkey = 79;
+                } else if (key==BTN_DOWN) {
+                    DoString(0,16,"DOWN ");
+                    xkey = 81;
+                } else if (key==BTN_UP) {
+                    DoString(0,16,"UP   ");
+                    xkey = 82;
+                } else if (key==BTN_ENTER) {
+                    DoString(0,16,"ENTER");
+                    xkey = 88;
+                } else {
+                    DoString(0,16,"------");
+                }
+                lcdDisplay();
             }
-            lcdDisplay();
-            delayms(10);
+            work_queue();
         };
     }
     DoString(0,0,"U HID");
